@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cone_check.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfranco <gfranco@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pchambon <pchambon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/06 20:00:06 by gfranco           #+#    #+#             */
-/*   Updated: 2019/05/07 13:14:12 by gfranco          ###   ########.fr       */
+/*   Updated: 2019/05/09 12:52:07 by pchambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,12 @@ void		cone_ch(int fd)
 		fail(1);
 	free(line);
 	printf("cone OK\n");
+}
+
+void		cone_fill(int fd, t_prim *prim, int index)
+{
+	prim[index].cone.tip = vec3_extract(fd);
+	prim[index].cone.b_center = vec3_extract(fd);
+	prim[index].cone.color = color_extract(fd);
+	prim[index].cone.b_radius = double_extract(fd);
 }

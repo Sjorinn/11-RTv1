@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder_check.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfranco <gfranco@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pchambon <pchambon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/06 20:00:22 by gfranco           #+#    #+#             */
-/*   Updated: 2019/05/07 13:13:47 by gfranco          ###   ########.fr       */
+/*   Updated: 2019/05/09 12:52:22 by pchambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,12 @@ void		cylinder_ch(int fd)
 		fail(1);
 	free(line);
 	printf("cylinder OK\n");
+}
+
+void		cylinder_fill(int fd, t_prim *prim, int index)
+{
+	prim[index].cyl.center = vec3_extract(fd);
+	prim[index].cyl.dir = vec3_extract(fd);
+	prim[index].cyl.color = color_extract(fd);
+	prim[index].cyl.radius = double_extract(fd);
 }

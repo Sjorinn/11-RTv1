@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gfranco <gfranco@student.42.fr>            +#+  +:+       +#+         #
+#    By: pchambon <pchambon@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/10 12:13:05 by gfranco           #+#    #+#              #
-#    Updated: 2019/05/08 15:31:33 by gfranco          ###   ########.fr        #
+#    Updated: 2019/05/09 15:11:25 by pchambon         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,10 +30,10 @@ INCDIR =	./includes
 
 OBJDIR =	./objs
 
-SRC =		cone.c cone_check.c cone_fill.c cylinder.c cylinder_check.c        \
-			cylinder_fill.c event.c extract_data.c lexer.c light_check.c       \
-			light_fill.c main.c objects_check.c parser.c plane.c plane_check.c \
-			plane_fill.c sphere.c sphere_check.c sphere_fill.c
+SRC =		cone.c cone_check.c cylinder.c cylinder_check.c			\
+			event.c extract_data.c lexer.c sphere.c sphere_check.c	\
+			main.c objects_check.c parser.c plane.c plane_check.c	\
+			light_check.c color.c math.c geo_init.c
 
 INC =		rtv1.h
 
@@ -98,5 +98,7 @@ fclean: clean
 
 re: fclean
 	@$(MAKE) all
+
+full: all clean
 
 .PHONY: all clean re fclean

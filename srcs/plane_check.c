@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   plane_check.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfranco <gfranco@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pchambon <pchambon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/06 19:59:41 by gfranco           #+#    #+#             */
-/*   Updated: 2019/05/07 12:30:04 by gfranco          ###   ########.fr       */
+/*   Updated: 2019/05/09 12:53:06 by pchambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,11 @@ void		plane_ch(int fd)
 		free(line);
 	}
 	printf("plane OK\n");
+}
+
+void		plane_fill(int fd, t_prim *prim, int index)
+{
+	prim[index].plane.point = vec3_extract(fd);
+	prim[index].plane.normal = vec3_extract(fd);
+	prim[index].plane.color = color_extract(fd);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rtv1.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfranco <gfranco@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pchambon <pchambon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 12:18:42 by gfranco           #+#    #+#             */
-/*   Updated: 2019/05/08 18:43:38 by gfranco          ###   ########.fr       */
+/*   Updated: 2019/05/09 15:20:42 by pchambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,14 @@ typedef struct	s_light
 
 typedef struct	s_ray
 {
-	t_vector	origin;
 	t_vector	dir;
+	t_vector	origin;
 }				t_ray;
 
 typedef struct s_sphere
 {
-	t_vector	center;
 	t_color		color;
+	t_vector	center;
 	double		radius;
 }				t_sphere;
 
@@ -70,26 +70,26 @@ typedef struct	s_cone
 
 typedef struct s_plane
 {
-	t_vector	normal;
 	t_color		color;
 	t_vector	point;
+	t_vector	normal;
 }				t_plane;
 
 typedef struct	s_cylinder
 {
-	t_vector	center;
 	t_vector	dir;
 	t_color		color;
+	t_vector	center;
 	double		radius;
 }				t_cylinder;
 
 typedef struct	s_object
 {
+	t_cylinder	cyl;
+	t_cone		cone;
+	t_plane		plane;
 	t_sphere	sphere;
 	t_sphere	sphere2;
-	t_plane		plane;
-	t_cone		cone;
-	t_cylinder	cyl;
 }				t_object;
 
 typedef struct	s_tools
@@ -98,38 +98,36 @@ typedef struct	s_tools
 	int		y;
 	double	t;
 	double	p;
+	double	c;
 	double	s1;
 	double	s2;
 	double	cy;
-	double	c;
 }				t_tools;
 
 typedef struct	s_base
 {
-	t_light		light;
 	t_ray		ray;
+	t_light		light;
 }				t_base;
 
 
 typedef struct	s_mlx
 {
+	int		bpp;
+	int		s_l;
 	void	*ptr;
 	void	*img;
 	int		*win;
 	char	*str;
-	int		bpp;
-	int		s_l;
 	int		endian;
 }				t_mlx;
 
 typedef struct	s_all
 {
 	t_mlx		mlx;
+	t_base		base;
 	t_tools		tools;
-	t_vector	vector;
-	t_sphere	sphere;
-	t_plane		plane;
-	t_ray		ray;
+	t_object	object;
 }				t_all;
 
 //************* ENUM ****************
@@ -148,11 +146,11 @@ typedef	struct	s_prim
 	t_type		type;
 	union
 	{
-		t_sphere	sphere;
-		t_plane		plane;
-		t_cone		cone;
 		t_cylinder	cyl;
+		t_cone		cone;
+		t_plane		plane;
 		t_light		light;
+		t_sphere	sphere;
 	};
 }				t_prim;
 
@@ -191,6 +189,7 @@ void		sphere_ch(int fd);
 void		sphere_fill(int fd, t_prim *prim, int index);
 int			sphere_intersect(t_sphere sphere, t_ray ray, double t);
 int			sphere_light_inter(t_sphere sphere, t_light light, t_vector inter_p);
+void		geo_init(t_object *object, t_base *base, t_tools *tools, t_prim *prim);
 int			str_isdigit(char *str);
 int			str_isdot(char *str);
 int			str_isdouble(char *str);

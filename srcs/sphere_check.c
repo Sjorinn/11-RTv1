@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sphere_check.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfranco <gfranco@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pchambon <pchambon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/06 19:59:21 by gfranco           #+#    #+#             */
-/*   Updated: 2019/05/08 16:58:28 by gfranco          ###   ########.fr       */
+/*   Updated: 2019/05/09 12:53:20 by pchambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,11 @@ void		sphere_ch(int fd)
 		fail(1);
 	free(line);
 	printf("sphere OK\n");
+}
+
+void		sphere_fill(int fd, t_prim *prim, int index)
+{
+	prim[index].sphere.center = vec3_extract(fd);
+	prim[index].sphere.radius = double_extract(fd);
+	prim[index].sphere.color = color_extract(fd);
 }

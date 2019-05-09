@@ -1,37 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   light_check.c                                      :+:      :+:    :+:   */
+/*   math.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pchambon <pchambon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/06 20:00:30 by gfranco           #+#    #+#             */
-/*   Updated: 2019/05/09 12:57:04 by pchambon         ###   ########.fr       */
+/*   Created: 2019/05/09 15:03:44 by pchambon          #+#    #+#             */
+/*   Updated: 2019/05/09 15:04:48 by pchambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/rtv1.h"
 
-void		light_ch(int fd)
+double	norm(t_vector v)
 {
-	int		i;
-	char	*line;
+	double	res;
 
-	i = -1;
-	while (++i < 2)
-	{
-		if (get_next_line(fd, &line) > 0)
-			if (check_vec3(line) == 0)
-				fail(1);
-		if (ft_strcmp(line, "") == 0)
-			fail(1);
-		free(line);
-	}
-	printf("light OK\n");
+	v.x = v.x * v.x;
+	v.y = v.y * v.y;
+	v.z = v.z * v.z;
+
+	res = v.x + v.y + v.z;
+	res = sqrt(res);
+
+	return (res);
 }
 
-void		light_fill(int fd, t_prim *prim, int index)
+t_vector	normalize(t_vector v)
 {
-	prim[index].light.src = vec3_extract(fd);
-	prim[index].light.color = color_extract(fd);
+	double	mg;
+
+	mg = sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+	v.x = v.x / mg;
+	v.y = v.y / mg;
+	v.z = v.z / mg;
+	return (v);
+}
+
+double	dot(t_vector a, t_vector b)
+{
+	return (a.x * b.x + a.y * b.y + a.z * b.z);
 }
