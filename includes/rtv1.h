@@ -6,7 +6,7 @@
 /*   By: pchambon <pchambon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 12:18:42 by gfranco           #+#    #+#             */
-/*   Updated: 2019/05/09 16:29:05 by pchambon         ###   ########.fr       */
+/*   Updated: 2019/05/09 17:29:02 by pchambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,7 @@ int			cylinder_intersect(t_cylinder cyl, t_ray ray, double t);
 double		dot(t_vector a, t_vector b);
 double		double_extract(int fd);
 void		draw_cone(t_base base, t_object object, t_mlx mlx, t_tools tools);
-void		draw_cylinder(t_base base, t_object object, t_mlx mlx, t_tools tools);
+void		draw_cyl(t_base base, t_object object, t_mlx mlx, t_tools tools);
 void		draw_plane(t_base base, t_object object, t_mlx mlx, t_tools tools);
 void		draw_sphere(t_base base, t_object object, t_mlx mlx, t_tools tools);
 void		fail(int i);

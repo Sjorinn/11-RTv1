@@ -6,7 +6,7 @@
 /*   By: pchambon <pchambon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 12:09:17 by gfranco           #+#    #+#             */
-/*   Updated: 2019/05/09 15:21:05 by pchambon         ###   ########.fr       */
+/*   Updated: 2019/05/09 17:29:02 by pchambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	closest_point(t_tools tools, t_base base, t_mlx mlx, t_object object)
 		draw_cone(base, object, mlx, tools);
 	if (tools.cy < tools.s1 && tools.cy < tools.p
 	&& tools.cy < tools.c && tools.cy < tools.s2)
-		draw_cylinder(base, object, mlx, tools);
+		draw_cyl(base, object, mlx, tools);
 }
 
 void	init_struct(t_base *base, t_tools *tools, t_object *object, t_mlx mlx)
