@@ -6,7 +6,7 @@
 /*   By: pchambon <pchambon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/06 20:00:22 by gfranco           #+#    #+#             */
-/*   Updated: 2019/05/09 12:52:22 by pchambon         ###   ########.fr       */
+/*   Updated: 2019/05/09 16:30:21 by pchambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,5 @@ void		cylinder_fill(int fd, t_prim *prim, int index)
 	prim[index].cyl.dir = vec3_extract(fd);
 	prim[index].cyl.color = color_extract(fd);
 	prim[index].cyl.radius = double_extract(fd);
+	prim[index].type = 3;
 }

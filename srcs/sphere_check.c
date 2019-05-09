@@ -6,7 +6,7 @@
 /*   By: pchambon <pchambon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/06 19:59:21 by gfranco           #+#    #+#             */
-/*   Updated: 2019/05/09 12:53:20 by pchambon         ###   ########.fr       */
+/*   Updated: 2019/05/09 16:31:48 by pchambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,5 @@ void		sphere_fill(int fd, t_prim *prim, int index)
 	prim[index].sphere.center = vec3_extract(fd);
 	prim[index].sphere.radius = double_extract(fd);
 	prim[index].sphere.color = color_extract(fd);
+	prim[index].type = 0;
 }

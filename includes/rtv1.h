@@ -6,7 +6,7 @@
 /*   By: pchambon <pchambon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 12:18:42 by gfranco           #+#    #+#             */
-/*   Updated: 2019/05/09 15:20:42 by pchambon         ###   ########.fr       */
+/*   Updated: 2019/05/09 16:29:05 by pchambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ typedef enum	e_type
 //************* STRUCTURE UNION ****************
 typedef	struct	s_prim
 {
-	t_type		type;
+	int		type;
 	union
 	{
 		t_cylinder	cyl;
