@@ -6,7 +6,7 @@
 /*   By: pchambon <pchambon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:33:16 by gfranco           #+#    #+#             */
-/*   Updated: 2019/05/10 15:35:28 by pchambon         ###   ########.fr       */
+/*   Updated: 2019/05/10 17:05:45 by pchambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void		draw_sphere(t_base base, t_object object, t_mlx mlx, t_tools tools)
 	color[2].r = color[1].r + color[0].r + tab[1] * object.sphere.color.r;
 	color[2].g = color[1].g + color[0].g + tab[1] * object.sphere.color.g;
 	color[2].b = color[1].b + color[0].b + tab[1] * object.sphere.color.b;
-	smooth_rgb(color[2], 0);
+	smooth_rgb(&color[2], 0);
 	mlx.str[(tools.y * WIDTH + tools.x) * 4] = color[2].b;
 	mlx.str[(tools.y * WIDTH + tools.x) * 4 + 1] = color[2].g;
 	mlx.str[(tools.y * WIDTH + tools.x) * 4 + 2] = color[2].r;

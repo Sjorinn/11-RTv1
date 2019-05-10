@@ -6,13 +6,13 @@
 /*   By: pchambon <pchambon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/09 15:07:19 by pchambon          #+#    #+#             */
-/*   Updated: 2019/05/10 16:18:03 by pchambon         ###   ########.fr       */
+/*   Updated: 2019/05/10 16:54:05 by pchambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/rtv1.h"
 
-void	geo_init(t_object *object, t_base *base, t_tools *tools, t_prim *prim)
+void	geo_init(t_object *object, t_base *base, t_tools *tools)
 {
 	object->sphere.center.x = WIDTH * 0.3;
 	object->sphere.center.y = HEIGHT * 0.3;

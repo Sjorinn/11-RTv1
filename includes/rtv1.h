@@ -6,7 +6,7 @@
 /*   By: pchambon <pchambon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 12:18:42 by gfranco           #+#    #+#             */
-/*   Updated: 2019/05/10 16:17:33 by pchambon         ###   ########.fr       */
+/*   Updated: 2019/05/10 17:05:26 by pchambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,7 +196,7 @@ void		geo_init(t_object *object, t_base *base, t_tools *tools);
 t_vector	getnormal_cyl(t_cylinder cyl, t_vector inter_p, t_ray ray, double t);
 t_vector	getnormal_sphere(t_sphere sphere, t_vector inter_p);
 t_vector	getnormal_cone(t_vector inter_p);
-void		smooth_rgb(t_color color, int i);
+void		smooth_rgb(t_color *color, int i);
 int			str_isdigit(char *str);
 int			str_isdot(char *str);
 int			str_isdouble(char *str);

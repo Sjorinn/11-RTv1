@@ -6,7 +6,7 @@
 /*   By: pchambon <pchambon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 11:26:54 by gfranco           #+#    #+#             */
-/*   Updated: 2019/05/10 15:29:14 by pchambon         ###   ########.fr       */
+/*   Updated: 2019/05/10 17:06:29 by pchambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ int		plane_intersect(t_plane plane, t_ray ray, double t)
 	double		d1;
 	double		d2;
 
-	origin_center.x = ray.origin.x - plane.point.x;
-	origin_center.y = ray.origin.y - plane.point.y;
-	origin_center.z = ray.origin.z - plane.point.z;
-	if ((d1 = dot(ray.dir, plane.normal)) == 0)
+	origin_center.x = -1 * (ray.origin.x - plane.point.x);
+	origin_center.y = -1 * (ray.origin.y - plane.point.y);
+	origin_center.z = -1 * (ray.origin.z - plane.point.z);
+	d2 = dot(origin_center, plane.normal);
+	if ((d1 = dot(ray.dir, plane.normal)) <= 0)
 		return (t);
-	d2 = -dot(origin_center, plane.normal);
 	t = d2 / d1;
 	return (t);
 }
@@ -69,6 +69,7 @@ void	draw_plane(t_base base, t_object object, t_mlx mlx, t_tools tools)
 	t_color		col[3];
 	double		tab[4];
 
+	plane_ext(vec, tab, base, tools);
 	vec[1] = object.plane.normal;
 	col[0].r = object.plane.color.r * tab[1];
 	col[0].g = object.plane.color.g * tab[1];
@@ -79,13 +80,13 @@ void	draw_plane(t_base base, t_object object, t_mlx mlx, t_tools tools)
 	col[2].r = col[0].r + col[1].r + tab[0] * object.plane.color.r;
 	col[2].g = col[0].g + col[1].g + tab[0] * object.plane.color.g;
 	col[2].b = col[0].b + col[1].b + tab[0] * object.plane.color.b;
-	smooth_rgb(col[2], 0);
+	smooth_rgb(&col[2], 0);
 	if (sphere_light_inter(object.sphere, base.light, vec[0]) == 1
 		|| sphere_light_inter(object.sphere2, base.light, vec[0]) == 1
 		|| cone_light_inter(object.cone, base.light, vec[0]) == 1
 		|| cylinder_light_inter(object.cyl, base.light, vec[0]) == 1)
 	{
-		smooth_rgb(col[2], 1);
+		smooth_rgb(&col[2], 1);
 	}
 	mlx.str[(tools.y * WIDTH + tools.x) * 4] = col[2].b;
 	mlx.str[(tools.y * WIDTH + tools.x) * 4 + 1] = col[2].g;
