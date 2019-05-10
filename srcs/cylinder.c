@@ -6,13 +6,42 @@
 /*   By: pchambon <pchambon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/04 14:43:02 by gfranco           #+#    #+#             */
-/*   Updated: 2019/05/10 15:03:00 by pchambon         ###   ########.fr       */
+/*   Updated: 2019/05/10 15:43:23 by pchambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/rtv1.h"
 
-int			cylinder_intersect(t_cylinder cyl, t_ray ray, double t)
+int		cylinder_light_inter(t_cylinder cyl, t_light light, t_vector inter_p)
+{
+	t_vector	o_center;
+	t_vector	lr;
+	double		tab[7];
+
+	o_center.x = inter_p.x - cyl.center.x;
+	o_center.y = inter_p.y - cyl.center.y;
+	o_center.z = inter_p.z - cyl.center.z;
+	lr.x = light.src.x - inter_p.x;
+	lr.y = light.src.y - inter_p.y;
+	lr.z = light.src.z - inter_p.z;
+	tab[0] = dot(lr, lr) - dot(lr, cyl.dir) * dot(lr, cyl.dir);
+	tab[1] = 2 * (dot(lr, o_center) - dot(lr, cyl.dir)
+	* dot(o_center, cyl.dir));
+	tab[2] = dot(o_center, o_center) - dot(o_center, cyl.dir)
+	* dot(o_center, cyl.dir) - cyl.radius * cyl.radius;
+	tab[3] = tab[1] * tab[1] - 4.0 * tab[0] * tab[2];
+	if (tab[3] < 0)
+		return (0);
+	tab[3] = sqrt(tab[3]);
+	tab[5] = (-tab[1] + tab[3]) / (2 * tab[0]);
+	tab[4] = (-tab[1] - tab[3]) / (2 * tab[0]);
+	tab[6] = (tab[4] < 0) ? tab[5] : tab[4];
+	if (tab[6] > 0)
+		return (1);
+	return (0);
+}
+
+int		cylinder_intersect(t_cylinder cyl, t_ray ray, double t)
 {
 	t_vector	o_center;
 	double		tab[6];
@@ -39,7 +68,7 @@ int			cylinder_intersect(t_cylinder cyl, t_ray ray, double t)
 	}
 }
 
-void		cyl_ext(double *tab, t_vector *vec, t_base base)
+void	cyl_ext(double *tab, t_vector *vec, t_base base)
 {
 	vec[3] = normalize(vec[2]);
 	vec[4] = normalize(base.light.ray);
@@ -48,16 +77,16 @@ void		cyl_ext(double *tab, t_vector *vec, t_base base)
 	vec[0].y = -vec[4].y + vec[5].y;
 	vec[0].z = -vec[4].z + vec[5].z;
 	vec[0] = normalize(vec[0]);
-	tab[1] = dot(vec[5], vec[3]) * 0.5;
-	tab[2] = -dot(vec[3], vec[4]) * 2.5;
+	tab[1] = -dot(vec[5], vec[3]) * 0.5;
+	tab[2] = dot(vec[3], vec[4]) * 2.5;
 	tab[2] = tab[2] < 0 ? 0 : tab[2];
 	tab[2] *= tab[2];
-	tab[3] = dot(vec[3], vec[0]);
+	tab[3] = -dot(vec[3], vec[0]);
 	tab[3] = tab[3] < 0 ? 0 : tab[3];
-	tab[4] = 3 * power(tab[3], (double)100);
+	tab[4] = 3 * power(tab[3], (double)80);
 }
 
-void		draw_cyl(t_base base, t_object object, t_mlx mlx, t_tools tools)
+void	draw_cyl(t_base base, t_object object, t_mlx mlx, t_tools tools)
 {
 	t_vector	vec[6];
 	t_color		color[3];
@@ -77,9 +106,10 @@ void		draw_cyl(t_base base, t_object object, t_mlx mlx, t_tools tools)
 	color[0].r = base.light.color.r * tab[4];
 	color[0].g = base.light.color.g * tab[4];
 	color[0].b = base.light.color.b * tab[4];
-	color[2].r = color[1].r + color[0].r + tab[1] * object.sphere.color.r;
-	color[2].g = color[1].g + color[0].g + tab[1] * object.sphere.color.g;
-	color[2].b = color[1].b + color[0].b + tab[1] * object.sphere.color.b;
+	color[2].r = color[1].r + color[0].r + tab[1] * object.cyl.color.r;
+	color[2].g = color[1].g + color[0].g + tab[1] * object.cyl.color.g;
+	color[2].b = color[1].b + color[0].b + tab[1] * object.cyl.color.b;
+	smooth_rgb(color[2], 0);
 	mlx.str[(tools.y * WIDTH + tools.x) * 4] = color[2].b;
 	mlx.str[(tools.y * WIDTH + tools.x) * 4 + 1] = color[2].g;
 	mlx.str[(tools.y * WIDTH + tools.x) * 4 + 2] = color[2].r;

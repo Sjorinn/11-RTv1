@@ -6,11 +6,40 @@
 /*   By: pchambon <pchambon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/02 14:08:43 by gfranco           #+#    #+#             */
-/*   Updated: 2019/05/10 15:07:37 by pchambon         ###   ########.fr       */
+/*   Updated: 2019/05/10 16:06:45 by pchambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/rtv1.h"
+
+int			cone_light_inter(t_cone cone, t_light light, t_vector inter_p)
+{
+	t_vector	vec[4];
+	double		tab[9];
+
+	cone_l_ext(cone, inter_p, light, vec);
+	tab[0] = norm(vec[1]);
+	vec[3].x = vec[1].x / tab[0];
+	vec[3].y = vec[1].y / tab[0];
+	vec[3].z = vec[1].z / tab[0];
+	tab[1] = cone.b_radius * cone.b_radius / tab[0] * tab[0];
+	tab[2] = dot(vec[2], vec[2]) - tab[1] * dot(vec[2], vec[3])
+		* dot(vec[2], vec[3]) - dot(vec[2], vec[3]) * dot(vec[2], vec[3]);
+	tab[3] = 2 * (dot(vec[2], vec[0]) - tab[1] * dot(vec[2], vec[3])
+		* dot(vec[0], vec[3]) - dot(vec[2], vec[3]) * dot(vec[0], vec[3]));
+	tab[4] = dot(vec[0], vec[0]) - tab[1] * dot(vec[0], vec[3])
+		* dot(vec[0], vec[3]) - dot(vec[0], vec[3]) * dot(vec[0], vec[3]);
+	tab[5] = tab[3] * tab[3] - 4.0 * tab[2] * tab[4];
+	if (tab[5] < 0)
+		return (0);
+	tab[5] = sqrt(tab[5]);
+	tab[7] = (-tab[3] + tab[5]) / (2 * tab[2]);
+	tab[6] = (-tab[3] - tab[5]) / (2 * tab[2]);
+	tab[8] = (tab[6] < 0) ? tab[7] : tab[6];
+	if (tab[8] > 0)
+		return (1);
+	return (0);
+}
 
 void		cone_int_ext(t_vector *vec, double *tab, t_cone cone, t_ray ray)
 {
@@ -37,8 +66,8 @@ int			cone_intersect(t_cone cone, t_ray ray, double t)
 		* dot(ray.dir, vec[2]) - dot(ray.dir, vec[2]) * dot(ray.dir, vec[2]);
 	tab[3] = 2 * (dot(ray.dir, vec[0]) - tab[1] * dot(ray.dir, vec[2])
 		* dot(vec[0], vec[2]) - dot(ray.dir, vec[2]) * dot(vec[0], vec[2]));
-	tab[4] = dot(vec[0], vec[0]) - tab[1] * dot(vec[0], vec[2]) * dot(vec[0], vec[2]) \
-		- dot(vec[0], vec[2]) * dot(vec[0], vec[2]);
+	tab[4] = dot(vec[0], vec[0]) - tab[1] * dot(vec[0], vec[2]) \
+		* dot(vec[0], vec[2]) - dot(vec[0], vec[2]) * dot(vec[0], vec[2]);
 	tab[5] = tab[3] * tab[3] - 4.0 * tab[2] * tab[4];
 	if (tab[5] < 0)
 		return (t);
@@ -65,11 +94,11 @@ void		cone_ext(double *tab, t_vector *vec, t_base base)
 	vec[0].y = -vec[4].y + vec[5].y;
 	vec[0].z = -vec[4].z + vec[5].z;
 	vec[0] = normalize(vec[0]);
-	tab[1] = dot(vec[5], vec[3]) * 0.5;
-	tab[2] = -dot(vec[3], vec[4]) * 2.5;
+	tab[1] = -dot(vec[5], vec[3]) * 0.5;
+	tab[2] = dot(vec[3], vec[4]) * 2.5;
 	tab[2] = tab[2] < 0 ? 0 : tab[2];
 	tab[2] *= tab[2];
-	tab[3] = dot(vec[3], vec[0]);
+	tab[3] = -dot(vec[3], vec[0]);
 	tab[3] = tab[3] < 0 ? 0 : tab[3];
 	tab[4] = 3 * power(tab[3], (double)100);
 }
@@ -93,6 +122,7 @@ void		draw_cone(t_base base, t_object object, t_mlx mlx, t_tools tools)
 	color[2].r = color[1].r + color[0].r + tab[1] * object.cone.color.r;
 	color[2].g = color[1].g + color[0].g + tab[1] * object.cone.color.g;
 	color[2].b = color[1].b + color[0].b + tab[1] * object.cone.color.b;
+	smooth_rgb(color[2], 0);
 	mlx.str[(tools.y * WIDTH + tools.x) * 4] = color[2].b;
 	mlx.str[(tools.y * WIDTH + tools.x) * 4 + 1] = color[2].g;
 	mlx.str[(tools.y * WIDTH + tools.x) * 4 + 2] = color[2].r;

@@ -6,7 +6,7 @@
 /*   By: pchambon <pchambon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:33:16 by gfranco           #+#    #+#             */
-/*   Updated: 2019/05/10 15:03:01 by pchambon         ###   ########.fr       */
+/*   Updated: 2019/05/10 15:35:28 by pchambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int			sphere_light_inter(t_sphere sphere, t_light light, t_vector inter_p)
 {
 	t_vector	o_center;
 	t_vector	lr;
-	double		tab[4];
+	double		tab[7];
 
 	o_center.x = inter_p.x - sphere.center.x;
 	o_center.y = inter_p.y - sphere.center.y;
@@ -30,8 +30,13 @@ int			sphere_light_inter(t_sphere sphere, t_light light, t_vector inter_p)
 	tab[3] = tab[1] * tab[1] - 4.0 * tab[0] * tab[2];
 	if (tab[3] < 0)
 		return (0);
-	else
+	tab[3] = sqrt(tab[3]);
+	tab[4] = (-tab[1] + tab[3]) / (2 * tab[0]);
+	tab[5] = (-tab[1] - tab[3]) / (2 * tab[0]);
+	tab[6] = (tab[5] < 0) ? tab[4] : tab[5];
+	if (tab[6] > 0)
 		return (1);
+	return (0);
 }
 
 int			sphere_intersect(t_sphere sphere, t_ray ray, double t)
@@ -102,6 +107,7 @@ void		draw_sphere(t_base base, t_object object, t_mlx mlx, t_tools tools)
 	color[2].r = color[1].r + color[0].r + tab[1] * object.sphere.color.r;
 	color[2].g = color[1].g + color[0].g + tab[1] * object.sphere.color.g;
 	color[2].b = color[1].b + color[0].b + tab[1] * object.sphere.color.b;
+	smooth_rgb(color[2], 0);
 	mlx.str[(tools.y * WIDTH + tools.x) * 4] = color[2].b;
 	mlx.str[(tools.y * WIDTH + tools.x) * 4 + 1] = color[2].g;
 	mlx.str[(tools.y * WIDTH + tools.x) * 4 + 2] = color[2].r;

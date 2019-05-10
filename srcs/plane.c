@@ -6,7 +6,7 @@
 /*   By: pchambon <pchambon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 11:26:54 by gfranco           #+#    #+#             */
-/*   Updated: 2019/05/09 16:38:17 by pchambon         ###   ########.fr       */
+/*   Updated: 2019/05/10 15:29:14 by pchambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,64 +40,54 @@ int		plane_intersect(t_plane plane, t_ray ray, double t)
 	return (t);
 }
 
+void	plane_ext(t_vector *vec, double *tab, t_base base, t_tools tools)
+{
+	vec[0].x = base.ray.origin.x + base.ray.dir.x * tools.p;
+	vec[0].y = base.ray.origin.y + base.ray.dir.y * tools.p;
+	vec[0].z = base.ray.origin.z + base.ray.dir.z * tools.p;
+	base.light.ray.x = vec[0].x - base.light.src.x;
+	base.light.ray.y = vec[0].y - base.light.src.y;
+	base.light.ray.z = vec[0].z - base.light.src.z;
+	vec[2] = normalize(base.light.ray);
+	vec[3] = normalize(base.ray.dir);
+	vec[4].x = -vec[2].x + vec[3].x;
+	vec[4].y = -vec[2].y + vec[3].y;
+	vec[4].z = -vec[2].z + vec[3].z;
+	vec[4] = normalize(vec[4]);
+	tab[0] = dot(vec[3], vec[1]) * 0.5;
+	tab[1] = dot(vec[2], vec[1]) * 2.5;
+	tab[1] = tab[1] < 0 ? 0 : tab[1];
+	tab[1] *= tab[1];
+	tab[2] = dot(vec[1], vec[4]);
+	tab[2] = tab[2] < 0 ? 0 : tab[2];
+	tab[3] = 3 * power(tab[2], (double)100);
+}
+
 void	draw_plane(t_base base, t_object object, t_mlx mlx, t_tools tools)
 {
-	t_vector	inter_p;
+	t_vector	vec[5];
+	t_color		col[3];
+	double		tab[4];
 
-	inter_p.x = base.ray.origin.x + base.ray.dir.x * tools.p;
-	inter_p.y = base.ray.origin.y + base.ray.dir.y * tools.p;
-	inter_p.z = base.ray.origin.z + base.ray.dir.z * tools.p;
-	base.light.ray.x = inter_p.x - base.light.src.x;
-	base.light.ray.y = inter_p.y - base.light.src.y;
-	base.light.ray.z = inter_p.z - base.light.src.z;
-
-	t_vector nm = /*normalize(*/object.plane.normal/*)*/;
-	t_vector lr = normalize(base.light.ray);
-	t_vector eye = normalize(base.ray.dir);
-	t_vector half;
-	half.x = -lr.x + eye.x;
-	half.y = -lr.y + eye.y;
-	half.z = -lr.z + eye.z;
-	half = normalize(half);
-
-	double	ambient = dot(eye, nm) * 0.5;
-
-	double	diffuse = dot(lr, nm) * 2.5;
-	diffuse = diffuse < 0 ? 0 : diffuse;
-	diffuse *= diffuse;
-
-	t_color	diff_color;
-	diff_color.r = object.plane.color.r * diffuse;
-	diff_color.g = object.plane.color.g * diffuse;
-	diff_color.b = object.plane.color.b * diffuse;
-
-	double	p = 100;
-	double dot_p = dot(nm, half);
-	dot_p = dot_p < 0 ? 0 : dot_p;
-	double si = 3 * power(dot_p, p);
-
-	t_color	spec_color;
-	spec_color.r = base.light.color.r * si;
-	spec_color.g = base.light.color.g * si;
-	spec_color.b = base.light.color.b * si;
-
-	t_color effects;
-	effects.r = diff_color.r + spec_color.r + ambient * object.plane.color.r;
-	effects.g = diff_color.g + spec_color.g + ambient * object.plane.color.g;
-	effects.b = diff_color.b + spec_color.b + ambient * object.plane.color.b;
-	effects.r = (effects.r / 255.0) / ((effects.r / 255.0) + 1) * 255.0;
-	effects.g = (effects.g / 255.0) / ((effects.g / 255.0) + 1) * 255.0;
-	effects.b = (effects.b / 255.0) / ((effects.b / 255.0) + 1) * 255.0;
-
-	if (sphere_light_inter(object.sphere, base.light, inter_p) == 1
-		|| sphere_light_inter(object.sphere2, base.light, inter_p) == 1)
+	vec[1] = object.plane.normal;
+	col[0].r = object.plane.color.r * tab[1];
+	col[0].g = object.plane.color.g * tab[1];
+	col[0].b = object.plane.color.b * tab[1];
+	col[1].r = base.light.color.r * tab[3];
+	col[1].g = base.light.color.g * tab[3];
+	col[1].b = base.light.color.b * tab[3];
+	col[2].r = col[0].r + col[1].r + tab[0] * object.plane.color.r;
+	col[2].g = col[0].g + col[1].g + tab[0] * object.plane.color.g;
+	col[2].b = col[0].b + col[1].b + tab[0] * object.plane.color.b;
+	smooth_rgb(col[2], 0);
+	if (sphere_light_inter(object.sphere, base.light, vec[0]) == 1
+		|| sphere_light_inter(object.sphere2, base.light, vec[0]) == 1
+		|| cone_light_inter(object.cone, base.light, vec[0]) == 1
+		|| cylinder_light_inter(object.cyl, base.light, vec[0]) == 1)
 	{
-		effects.r = 0;
-		effects.g = 0;
-		effects.b = 0;
+		smooth_rgb(col[2], 1);
 	}
-
-	mlx.str[(tools.y * WIDTH + tools.x) * 4] = effects.b;
-	mlx.str[(tools.y * WIDTH + tools.x) * 4 + 1] = effects.g;
-	mlx.str[(tools.y * WIDTH + tools.x) * 4 + 2] = effects.r;
+	mlx.str[(tools.y * WIDTH + tools.x) * 4] = col[2].b;
+	mlx.str[(tools.y * WIDTH + tools.x) * 4 + 1] = col[2].g;
+	mlx.str[(tools.y * WIDTH + tools.x) * 4 + 2] = col[2].r;
 }

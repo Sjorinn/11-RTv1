@@ -6,7 +6,7 @@
 /*   By: pchambon <pchambon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 12:18:42 by gfranco           #+#    #+#             */
-/*   Updated: 2019/05/10 15:03:47 by pchambon         ###   ########.fr       */
+/*   Updated: 2019/05/10 16:06:05 by pchambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,9 @@ void		draw_cone(t_base base, t_object object, t_mlx mlx, t_tools tools);
 void		draw_cyl(t_base base, t_object object, t_mlx mlx, t_tools tools);
 void		draw_plane(t_base base, t_object object, t_mlx mlx, t_tools tools);
 void		draw_sphere(t_base base, t_object object, t_mlx mlx, t_tools tools);
+int			cylinder_light_inter(t_cylinder cyl, t_light light, t_vector inter_p);
+int			cone_light_inter(t_cone cone, t_light light, t_vector inter_p);
+void		cone_l_ext(t_cone cone, t_vector inter_p, t_light light, t_vector *vec);
 void		fail(int i);
 int			key(int key, void *param);
 int			lexer(char *file, int number);
@@ -193,6 +196,7 @@ void		geo_init(t_object *object, t_base *base, t_tools *tools, t_prim *prim);
 t_vector	getnormal_cyl(t_cylinder cyl, t_vector inter_p, t_ray ray, double t);
 t_vector	getnormal_sphere(t_sphere sphere, t_vector inter_p);
 t_vector	getnormal_cone(t_vector inter_p);
+void		smooth_rgb(t_color color, int i);
 int			str_isdigit(char *str);
 int			str_isdot(char *str);
 int			str_isdouble(char *str);

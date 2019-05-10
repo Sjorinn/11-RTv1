@@ -6,7 +6,7 @@
 /*   By: pchambon <pchambon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/09 15:05:15 by pchambon          #+#    #+#             */
-/*   Updated: 2019/05/09 16:23:14 by pchambon         ###   ########.fr       */
+/*   Updated: 2019/05/10 15:26:21 by pchambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,20 @@ double		power(double i, int power_value)
 	while (power_value-- > 0)
 		i *= tmp;
 	return (i);
+}
+
+void		smooth_rgb(t_color color, int i)
+{
+	if (i == 0)
+	{
+		color.r = (color.r / 255.0) / ((color.r / 255.0) + 1) * 255.0;
+		color.g = (color.g / 255.0) / ((color.g / 255.0) + 1) * 255.0;
+		color.b = (color.b / 255.0) / ((color.b / 255.0) + 1) * 255.0;
+	}
+	else
+	{
+		color.r = 0;
+		color.g = 0;
+		color.b = 0;
+	}
 }
