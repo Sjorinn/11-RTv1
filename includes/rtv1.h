@@ -6,7 +6,7 @@
 /*   By: pchambon <pchambon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 12:18:42 by gfranco           #+#    #+#             */
-/*   Updated: 2019/05/10 17:05:26 by pchambon         ###   ########.fr       */
+/*   Updated: 2019/05/10 18:03:47 by pchambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@
 # define WIDTH 1200
 # define HEIGHT 1200
 
-//*************  STRUCTURES  ****************
 typedef struct	s_color
 {
 	int			r;
@@ -53,7 +52,7 @@ typedef struct	s_ray
 	t_vector	origin;
 }				t_ray;
 
-typedef struct s_sphere
+typedef struct	s_sphere
 {
 	t_color		color;
 	t_vector	center;
@@ -68,7 +67,7 @@ typedef struct	s_cone
 	double		b_radius;
 }				t_cone;
 
-typedef struct s_plane
+typedef struct	s_plane
 {
 	t_color		color;
 	t_vector	point;
@@ -94,14 +93,14 @@ typedef struct	s_object
 
 typedef struct	s_tools
 {
-	int		x;
-	int		y;
-	double	t;
-	double	p;
-	double	c;
-	double	s1;
-	double	s2;
-	double	cy;
+	int			x;
+	int			y;
+	double		t;
+	double		p;
+	double		c;
+	double		s1;
+	double		s2;
+	double		cy;
 }				t_tools;
 
 typedef struct	s_base
@@ -110,16 +109,15 @@ typedef struct	s_base
 	t_light		light;
 }				t_base;
 
-
 typedef struct	s_mlx
 {
-	int		bpp;
-	int		s_l;
-	void	*ptr;
-	void	*img;
-	int		*win;
-	char	*str;
-	int		endian;
+	int			bpp;
+	int			s_l;
+	void		*ptr;
+	void		*img;
+	int			*win;
+	char		*str;
+	int			endian;
 }				t_mlx;
 
 typedef struct	s_all
@@ -130,7 +128,6 @@ typedef struct	s_all
 	t_object	object;
 }				t_all;
 
-//************* ENUM ****************
 typedef enum	e_type
 {
 	SPHERE,
@@ -140,7 +137,6 @@ typedef enum	e_type
 	LIGHT
 }				t_type;
 
-//************* STRUCTURE UNION ****************
 typedef	struct	s_prim
 {
 	int		type;
@@ -154,52 +150,50 @@ typedef	struct	s_prim
 	};
 }				t_prim;
 
-//*************  FUNCTIONS ****************
-int			check_vec3(char *line);
-t_color		color_extract(int fd);
-void		cone_ch(int fd);
-void		cone_fill(int fd, t_prim *prim, int index);
-int			cone_intersect(t_cone cone, t_ray ray, double t);
-void		cylinder_ch(int fd);
-void		cylinder_fill(int fd, t_prim *prim, int index);
-int			cylinder_intersect(t_cylinder cyl, t_ray ray, double t);
-double		dot(t_vector a, t_vector b);
-double		double_extract(int fd);
-void		draw_cone(t_base base, t_object object, t_mlx mlx, t_tools tools);
-void		draw_cyl(t_base base, t_object object, t_mlx mlx, t_tools tools);
-void		draw_plane(t_base base, t_object object, t_mlx mlx, t_tools tools);
-void		draw_sphere(t_base base, t_object object, t_mlx mlx, t_tools tools);
-int			cylinder_light_inter(t_cylinder cyl, t_light light, t_vector inter_p);
-int			cone_light_inter(t_cone cone, t_light light, t_vector inter_p);
-void		cone_l_ext(t_cone cone, t_vector inter_p, t_light light, t_vector *vec);
-void		fail(int i);
-int			key(int key, void *param);
-int			lexer(char *file, int number);
-void		light_ch(int fd);
-void		light_fill(int fd, t_prim *prim, int index);
-int			name_obj(char *line, int *number);
-double		norm(t_vector v);
-t_vector	normalize(t_vector v);
-void		plane_ch(int fd);
-void		plane_fill(int fd, t_prim *prim, int index);
-int			plane_intersect(t_plane plane, t_ray ray, double t);
-t_prim		*parser(char *file, int number, t_prim *prim);
-double		power(double i, int power_value);
-t_prim		*create_tab(int nb_obj);
-void		put_color(int x, int y, unsigned int *str, double dt);
-t_vector	reflect(t_vector n, t_vector i);
-void		sphere_ch(int fd);
-void		sphere_fill(int fd, t_prim *prim, int index);
-int			sphere_intersect(t_sphere sphere, t_ray ray, double t);
-int			sphere_light_inter(t_sphere sphere, t_light light, t_vector inter_p);
-void		geo_init(t_object *object, t_base *base, t_tools *tools);
-t_vector	getnormal_cyl(t_cylinder cyl, t_vector inter_p, t_ray ray, double t);
-t_vector	getnormal_sphere(t_sphere sphere, t_vector inter_p);
-t_vector	getnormal_cone(t_vector inter_p);
-void		smooth_rgb(t_color *color, int i);
-int			str_isdigit(char *str);
-int			str_isdot(char *str);
-int			str_isdouble(char *str);
-t_vector	vec3_extract(int fd);
-
+void			fail(int i);
+void			cone_ch(int fd);
+void			light_ch(int fd);
+void			plane_ch(int fd);
+double			norm(t_vector v);
+void			sphere_ch(int fd);
+void			cylinder_ch(int fd);
+t_vector		vec3_extract(int fd);
+int				str_isdot(char *str);
+t_color			color_extract(int fd);
+t_vector		normalize(t_vector v);
+int				str_isdigit(char *str);
+int				check_vec3(char *line);
+double			double_extract(int fd);
+int				str_isdouble(char *str);
+t_prim			*create_tab(int nb_obj);
+int				key(int key, void *param);
+double			dot(t_vector a, t_vector b);
+int				lexer(char *file, int number);
+t_vector		reflect(t_vector n, t_vector i);
+double			power(double i, int power_value);
+t_vector		getnormal_cone(t_vector inter_p);
+void			smooth_rgb(t_color *color, int i);
+int				name_obj(char *line, int *number);
+void			cone_fill(int fd, t_prim *prim, int index);
+void			plane_fill(int fd, t_prim *prim, int index);
+void			light_fill(int fd, t_prim *prim, int index);
+void			sphere_fill(int fd, t_prim *prim, int index);
+t_prim			*parser(char *file, int number, t_prim *prim);
+void			cylinder_fill(int fd, t_prim *prim, int index);
+int				cone_intersect(t_cone cone, t_ray ray, double t);
+int				plane_intersect(t_plane plane, t_ray ray, double t);
+t_vector		getnormal_sphere(t_sphere sphere, t_vector inter_p);
+void			put_color(int x, int y, unsigned int *str, double dt);
+int				sphere_intersect(t_sphere sphere, t_ray ray, double t);
+int				cylinder_intersect(t_cylinder cyl, t_ray ray, double t);
+void			geo_init(t_object *object, t_base *base, t_tools *tools);
+void			draw_cone(t_base base, t_object object, t_mlx mlx, t_tools t);
+int				cone_light_inter(t_cone cone, t_light light, t_vector inter_p);
+int				sphere_light_inter(t_sphere sphere, t_light light, t_vector p);
+void			draw_plane(t_base base, t_object object, t_mlx mlx, t_tools t);
+void			cone_l_ext(t_cone c, t_vector p, t_light light, t_vector *vec);
+t_vector		getnormal_cyl(t_cylinder cyl, t_vector p, t_ray ray, double t);
+int				cylinder_light_inter(t_cylinder cyl, t_light light, t_vector p);
+void			draw_sphere(t_base base, t_object object, t_mlx mlx, t_tools t);
+void			draw_cyl(t_base base, t_object object, t_mlx mlx, t_tools tool);
 #endif
