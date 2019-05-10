@@ -6,36 +6,39 @@
 /*   By: pchambon <pchambon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/02 14:08:43 by gfranco           #+#    #+#             */
-/*   Updated: 2019/05/09 17:55:30 by pchambon         ###   ########.fr       */
+/*   Updated: 2019/05/10 15:07:37 by pchambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/rtv1.h"
 
+void		cone_int_ext(t_vector *vec, double *tab, t_cone cone, t_ray ray)
+{
+	vec[0].x = ray.origin.x - cone.tip.x;
+	vec[0].y = ray.origin.y - cone.tip.y;
+	vec[0].z = ray.origin.z - cone.tip.z;
+	vec[1].x = cone.b_center.x - cone.tip.x;
+	vec[1].y = cone.b_center.y - cone.tip.y;
+	vec[1].z = cone.b_center.z - cone.tip.z;
+	tab[0] = norm(vec[1]);
+	vec[2].x = vec[1].x / tab[0];
+	vec[2].y = vec[1].y / tab[0];
+	vec[2].z = vec[1].z / tab[0];
+}
+
 int			cone_intersect(t_cone cone, t_ray ray, double t)
 {
-	t_vector	o_tip;
-	t_vector	height;
-	t_vector	h;
+	t_vector	vec[3];
 	double		tab[8];
 
-	o_tip.x = ray.origin.x - cone.tip.x;
-	o_tip.y = ray.origin.y - cone.tip.y;
-	o_tip.z = ray.origin.z - cone.tip.z;
-	height.x = cone.b_center.x - cone.tip.x;
-	height.y = cone.b_center.y - cone.tip.y;
-	height.z = cone.b_center.z - cone.tip.z;
-	tab[0] = norm(height);
-	h.x = height.x / tab[0];
-	h.y = height.y / tab[0];
-	h.z = height.z / tab[0];
+	cone_int_ext(vec, tab, cone, ray);
 	tab[1] = cone.b_radius * cone.b_radius / tab[0] * tab[0];
-	tab[2] = dot(ray.dir, ray.dir) - tab[1] * dot(ray.dir, h)
-		* dot(ray.dir, h) - dot(ray.dir, h) * dot(ray.dir, h);
-	tab[3] = 2 * (dot(ray.dir, o_tip) - tab[1] * dot(ray.dir, h)
-		* dot(o_tip, h) - dot(ray.dir, h) * dot(o_tip, h));
-	tab[4] = dot(o_tip, o_tip) - tab[1] * dot(o_tip, h) * dot(o_tip, h) \
-		- dot(o_tip, h) * dot(o_tip, h);
+	tab[2] = dot(ray.dir, ray.dir) - tab[1] * dot(ray.dir, vec[2])
+		* dot(ray.dir, vec[2]) - dot(ray.dir, vec[2]) * dot(ray.dir, vec[2]);
+	tab[3] = 2 * (dot(ray.dir, vec[0]) - tab[1] * dot(ray.dir, vec[2])
+		* dot(vec[0], vec[2]) - dot(ray.dir, vec[2]) * dot(vec[0], vec[2]));
+	tab[4] = dot(vec[0], vec[0]) - tab[1] * dot(vec[0], vec[2]) * dot(vec[0], vec[2]) \
+		- dot(vec[0], vec[2]) * dot(vec[0], vec[2]);
 	tab[5] = tab[3] * tab[3] - 4.0 * tab[2] * tab[4];
 	if (tab[5] < 0)
 		return (t);
@@ -49,24 +52,8 @@ int			cone_intersect(t_cone cone, t_ray ray, double t)
 	}
 }
 
-t_vector	getnormal_cone(t_vector inter_p)
+void		cone_ext(double *tab, t_vector *vec, t_base base)
 {
-	t_vector	normal;
-
-	inter_p.y *= -1;
-	normal = normalize(inter_p);
-	return (normal);
-}
-
-void		draw_cone(t_base base, t_object object, t_mlx mlx, t_tools tools)
-{
-	t_vector	vec[6];
-	t_color		color[3];
-	double		tab[5];
-
-	vec[1].x = base.ray.origin.x + base.ray.dir.x * tools.c;
-	vec[1].y = base.ray.origin.y + base.ray.dir.y * tools.c;
-	vec[1].z = base.ray.origin.z + base.ray.dir.z * tools.c;
 	base.light.ray.x = base.light.src.x - vec[1].x;
 	base.light.ray.y = base.light.src.y - vec[1].y;
 	base.light.ray.z = base.light.src.z - vec[1].z;
@@ -82,12 +69,24 @@ void		draw_cone(t_base base, t_object object, t_mlx mlx, t_tools tools)
 	tab[2] = -dot(vec[3], vec[4]) * 2.5;
 	tab[2] = tab[2] < 0 ? 0 : tab[2];
 	tab[2] *= tab[2];
-	color[1].r = object.cone.color.r * tab[2];
-	color[1].g = object.cone.color.g * tab[2];
-	color[1].b = object.cone.color.b * tab[2];
 	tab[3] = dot(vec[3], vec[0]);
 	tab[3] = tab[3] < 0 ? 0 : tab[3];
 	tab[4] = 3 * power(tab[3], (double)100);
+}
+
+void		draw_cone(t_base base, t_object object, t_mlx mlx, t_tools tools)
+{
+	t_vector	vec[6];
+	t_color		color[3];
+	double		tab[5];
+
+	vec[1].x = base.ray.origin.x + base.ray.dir.x * tools.c;
+	vec[1].y = base.ray.origin.y + base.ray.dir.y * tools.c;
+	vec[1].z = base.ray.origin.z + base.ray.dir.z * tools.c;
+	cone_ext(tab, vec, base);
+	color[1].r = object.cone.color.r * tab[2];
+	color[1].g = object.cone.color.g * tab[2];
+	color[1].b = object.cone.color.b * tab[2];
 	color[0].r = base.light.color.r * tab[4];
 	color[0].g = base.light.color.g * tab[4];
 	color[0].b = base.light.color.b * tab[4];

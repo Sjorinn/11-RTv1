@@ -6,7 +6,7 @@
 #    By: pchambon <pchambon@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/10 12:13:05 by gfranco           #+#    #+#              #
-#    Updated: 2019/05/09 15:11:25 by pchambon         ###   ########.fr        #
+#    Updated: 2019/05/10 15:02:37 by pchambon         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ OBJDIR =	./objs
 SRC =		cone.c cone_check.c cylinder.c cylinder_check.c			\
 			event.c extract_data.c lexer.c sphere.c sphere_check.c	\
 			main.c objects_check.c parser.c plane.c plane_check.c	\
-			light_check.c color.c math.c geo_init.c
+			light_check.c color.c math.c geo_init.c normal.c
 
 INC =		rtv1.h
 

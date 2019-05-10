@@ -6,7 +6,7 @@
 /*   By: pchambon <pchambon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 12:18:42 by gfranco           #+#    #+#             */
-/*   Updated: 2019/05/09 17:29:02 by pchambon         ###   ########.fr       */
+/*   Updated: 2019/05/10 15:03:47 by pchambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,9 @@ void		sphere_fill(int fd, t_prim *prim, int index);
 int			sphere_intersect(t_sphere sphere, t_ray ray, double t);
 int			sphere_light_inter(t_sphere sphere, t_light light, t_vector inter_p);
 void		geo_init(t_object *object, t_base *base, t_tools *tools, t_prim *prim);
+t_vector	getnormal_cyl(t_cylinder cyl, t_vector inter_p, t_ray ray, double t);
+t_vector	getnormal_sphere(t_sphere sphere, t_vector inter_p);
+t_vector	getnormal_cone(t_vector inter_p);
 int			str_isdigit(char *str);
 int			str_isdot(char *str);
 int			str_isdouble(char *str);
