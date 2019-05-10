@@ -6,7 +6,7 @@
 /*   By: pchambon <pchambon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 11:26:54 by gfranco           #+#    #+#             */
-/*   Updated: 2019/05/10 17:06:29 by pchambon         ###   ########.fr       */
+/*   Updated: 2019/05/10 17:44:06 by pchambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,7 @@ void	draw_plane(t_base base, t_object object, t_mlx mlx, t_tools tools)
 		|| sphere_light_inter(object.sphere2, base.light, vec[0]) == 1
 		|| cone_light_inter(object.cone, base.light, vec[0]) == 1
 		|| cylinder_light_inter(object.cyl, base.light, vec[0]) == 1)
-	{
 		smooth_rgb(&col[2], 1);
-	}
 	mlx.str[(tools.y * WIDTH + tools.x) * 4] = col[2].b;
 	mlx.str[(tools.y * WIDTH + tools.x) * 4 + 1] = col[2].g;
 	mlx.str[(tools.y * WIDTH + tools.x) * 4 + 2] = col[2].r;

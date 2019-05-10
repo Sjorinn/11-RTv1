@@ -6,7 +6,7 @@
 /*   By: pchambon <pchambon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/04 14:43:02 by gfranco           #+#    #+#             */
-/*   Updated: 2019/05/10 17:05:40 by pchambon         ###   ########.fr       */
+/*   Updated: 2019/05/10 17:16:23 by pchambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ int		cylinder_intersect(t_cylinder cyl, t_ray ray, double t)
 	o_center.z = ray.origin.z - cyl.center.z;
 	tab[0] = dot(ray.dir, ray.dir) \
 		- dot(ray.dir, cyl.dir) * dot(ray.dir, cyl.dir);
-	tab[1] = 2 * dot(ray.dir, o_center) - dot(ray.dir, cyl.dir)
-	* dot(o_center, cyl.dir);
+	tab[1] = 2 * (dot(ray.dir, o_center) - dot(ray.dir, cyl.dir)
+	* dot(o_center, cyl.dir));
 	tab[2] = dot(o_center, o_center) - dot(o_center, cyl.dir)
 	* dot(o_center, cyl.dir) - cyl.radius * cyl.radius;
 	tab[3] = tab[1] * tab[1] - 4.0 * tab[0] * tab[2];

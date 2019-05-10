@@ -6,7 +6,7 @@
 /*   By: pchambon <pchambon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 12:09:17 by gfranco           #+#    #+#             */
-/*   Updated: 2019/05/10 16:17:21 by pchambon         ###   ########.fr       */
+/*   Updated: 2019/05/10 17:11:42 by pchambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	fail(int i)
 
 void	closest_point(t_tools tools, t_base base, t_mlx mlx, t_object object)
 {
-	if (tools.p < tools.s1 && tools.p < tools.s2 && tools.p <= 5000
+	if (tools.p < tools.s1 && tools.p < tools.s2 && tools.p <= 10000
 	&& tools.p < tools.c && tools.p < tools.cy)
 		draw_plane(base, object, mlx, tools);
 	if (tools.s1 < tools.p && tools.s1 < tools.s2
