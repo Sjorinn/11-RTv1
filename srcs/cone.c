@@ -6,7 +6,7 @@
 /*   By: pchambon <pchambon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/02 14:08:43 by gfranco           #+#    #+#             */
-/*   Updated: 2019/05/10 17:05:34 by pchambon         ###   ########.fr       */
+/*   Updated: 2019/05/13 13:01:33 by pchambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int			cone_light_inter(t_cone cone, t_light light, t_vector inter_p)
 	tab[7] = (-tab[3] + tab[5]) / (2 * tab[2]);
 	tab[6] = (-tab[3] - tab[5]) / (2 * tab[2]);
 	tab[8] = (tab[6] < 0) ? tab[7] : tab[6];
-	if (tab[8] > 0)
+	if (tab[8] >= 0 && tab[8] <= 1)
 		return (1);
 	return (0);
 }
@@ -77,8 +77,10 @@ int			cone_intersect(t_cone cone, t_ray ray, double t)
 		tab[7] = (-tab[3] + tab[5]) / (2 * tab[2]);
 		tab[6] = (-tab[3] - tab[5]) / (2 * tab[2]);
 		t = (tab[6] < 0) ? tab[7] : tab[6];
-		return (t);
+		if (t > 0)
+			return (t);
 	}
+	return (200000);
 }
 
 void		cone_ext(double *tab, t_vector *vec, t_base base)

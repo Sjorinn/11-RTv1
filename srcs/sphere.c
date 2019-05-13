@@ -6,7 +6,7 @@
 /*   By: pchambon <pchambon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 17:33:16 by gfranco           #+#    #+#             */
-/*   Updated: 2019/05/10 17:05:45 by pchambon         ###   ########.fr       */
+/*   Updated: 2019/05/13 13:55:19 by pchambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int			sphere_light_inter(t_sphere sphere, t_light light, t_vector inter_p)
 	tab[4] = (-tab[1] + tab[3]) / (2 * tab[0]);
 	tab[5] = (-tab[1] - tab[3]) / (2 * tab[0]);
 	tab[6] = (tab[5] < 0) ? tab[4] : tab[5];
-	if (tab[6] > 0)
+	if (tab[6] >= 0 && tab[6] <= 1)
 		return (1);
 	return (0);
 }

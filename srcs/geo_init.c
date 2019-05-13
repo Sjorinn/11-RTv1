@@ -6,7 +6,7 @@
 /*   By: pchambon <pchambon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/09 15:07:19 by pchambon          #+#    #+#             */
-/*   Updated: 2019/05/10 17:38:12 by pchambon         ###   ########.fr       */
+/*   Updated: 2019/05/13 13:07:24 by pchambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ void	geo_init(t_object *object, t_base *base, t_tools *tools)
 	object->cyl.center.y = 0;
 	object->cyl.center.z = 1000;
 	object->cyl.dir.x = 1;
-	object->cyl.dir.y = -2;
-	object->cyl.dir.z = 0;
+	object->cyl.dir.y = 1;
+	object->cyl.dir.z = 10;
 	object->cyl.dir = normalize(object->cyl.dir);
 	object->cyl.radius = 50;
 	object->cyl.color.r = 0x100;
@@ -67,7 +67,7 @@ void	geo_init(t_object *object, t_base *base, t_tools *tools)
 	base->light.color.b = 0xFF;
 	base->ray.origin.x = 600;
 	base->ray.origin.y = 600;
-	base->ray.origin.z = -1000;
+	base->ray.origin.z = -500;
 	base->ray.dir.x = 0;
 	base->ray.dir.y = 0;
 	base->ray.dir.z = 0;

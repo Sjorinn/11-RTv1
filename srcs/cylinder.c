@@ -6,7 +6,7 @@
 /*   By: pchambon <pchambon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/04 14:43:02 by gfranco           #+#    #+#             */
-/*   Updated: 2019/05/10 17:16:23 by pchambon         ###   ########.fr       */
+/*   Updated: 2019/05/13 13:06:20 by pchambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int		cylinder_light_inter(t_cylinder cyl, t_light light, t_vector inter_p)
 	tab[5] = (-tab[1] + tab[3]) / (2 * tab[0]);
 	tab[4] = (-tab[1] - tab[3]) / (2 * tab[0]);
 	tab[6] = (tab[4] < 0) ? tab[5] : tab[4];
-	if (tab[6] > 0)
+	if (tab[6] >= 0 && tab[6] <= 1)
 		return (1);
 	return (0);
 }
@@ -49,9 +49,9 @@ int		cylinder_intersect(t_cylinder cyl, t_ray ray, double t)
 	o_center.x = ray.origin.x - cyl.center.x;
 	o_center.y = ray.origin.y - cyl.center.y;
 	o_center.z = ray.origin.z - cyl.center.z;
-	tab[0] = dot(ray.dir, ray.dir) \
-		- dot(ray.dir, cyl.dir) * dot(ray.dir, cyl.dir);
-	tab[1] = 2 * (dot(ray.dir, o_center) - dot(ray.dir, cyl.dir)
+	tab[0] = dot(normalize(ray.dir), normalize(ray.dir)) \
+		- dot(normalize(ray.dir), cyl.dir) * dot(normalize(ray.dir), cyl.dir);
+	tab[1] = 2 * (dot(normalize(ray.dir), o_center) - dot(normalize(ray.dir), cyl.dir)
 	* dot(o_center, cyl.dir));
 	tab[2] = dot(o_center, o_center) - dot(o_center, cyl.dir)
 	* dot(o_center, cyl.dir) - cyl.radius * cyl.radius;
@@ -64,8 +64,10 @@ int		cylinder_intersect(t_cylinder cyl, t_ray ray, double t)
 		tab[5] = (-tab[1] + tab[3]) / (2 * tab[0]);
 		tab[4] = (-tab[1] - tab[3]) / (2 * tab[0]);
 		t = (tab[4] < 0) ? tab[5] : tab[4];
-		return (t);
+		if (t > 0)
+			return (t);
 	}
+	return (200000);
 }
 
 void	cyl_ext(double *tab, t_vector *vec, t_base base)
