@@ -6,7 +6,7 @@
 /*   By: pchambon <pchambon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 12:18:42 by gfranco           #+#    #+#             */
-/*   Updated: 2019/05/10 18:03:47 by pchambon         ###   ########.fr       */
+/*   Updated: 2019/05/15 12:04:43 by pchambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,11 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <mlx.h>
-# include "../libft/libft.h"
+//# include "../libft/libft.h"
 # include "macros.h"
 # include <math.h>
 # include <stdio.h>
+# include "../X-Libft/includes/libft.h"
 
 # define WIDTH 1200
 # define HEIGHT 1200

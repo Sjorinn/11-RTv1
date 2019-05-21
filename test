@@ -1,0 +1,22 @@
+scene:
+	camera:
+		origin: double double double
+	light:
+		origin: 600 0 -500
+		color: 255 255 255
+object:
+	type: plane
+		point: 600 1000 200
+		normale: 0 240 100
+		color: 179 255 250
+	type: sphere
+		center: 300 500 1200
+		radius: 100
+		color: 0 255 0
+	type: cylinder
+		centre: 100 200 300
+		direct: 0 1 0
+		radius: 140
+		color: 255 100 0
+
+
