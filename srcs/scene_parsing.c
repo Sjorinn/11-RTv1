@@ -6,7 +6,7 @@
 /*   By: pchambon <pchambon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 07:29:34 by pchambon          #+#    #+#             */
-/*   Updated: 2019/05/21 08:04:23 by pchambon         ###   ########.fr       */
+/*   Updated: 2019/05/21 08:08:21 by pchambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int		camera_parsing(char *line, int *tab, t_all *all)
 		split = ft_strsplit(line + 8, ' ');
 		while (split[i])
 			;
+		i != 3 ? tab[3] == 1 : ;
 	}
 	if (tab[3] == 1)
 		return (-1);
@@ -43,6 +44,7 @@ int		light_parsing(char *line, int *tab, t_all *all)
 		split = ft_strsplit(line + 8, ' ');
 		while (split[i])
 			;
+		i != 3 ? tab[3] == 1 : ;
 	}
 	if (tab[2] == 2)
 	{
@@ -50,6 +52,7 @@ int		light_parsing(char *line, int *tab, t_all *all)
 		split = ft_strsplit(line + 7, ' ');
 		while (split[i])
 			;
+		i != 3 ? tab[3] == 1 : ;
 	}
 	if (tab[3] == 1)
 		return (-1);

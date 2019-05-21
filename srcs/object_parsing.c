@@ -6,7 +6,7 @@
 /*   By: pchambon <pchambon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 15:51:58 by pchambon          #+#    #+#             */
-/*   Updated: 2019/05/21 08:04:25 by pchambon         ###   ########.fr       */
+/*   Updated: 2019/05/21 08:07:59 by pchambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int		plane_parsing(char *line, int *tab, t_all *all)
 		split = ft_strsplit(line + 7, ' ');
 		while (split[i])
 			;
+		i != 3 ? tab[3] == 1 : ;
 	}
 	if (tab[2] == 2)
 	{
@@ -32,6 +33,7 @@ int		plane_parsing(char *line, int *tab, t_all *all)
 		split = ft_strsplit(line + 9, ' ');
 		while (split[i])
 			;
+		i != 3 ? tab[3] == 1 : ;
 	}
 	if (tab[2] == 3)
 	{
@@ -39,6 +41,7 @@ int		plane_parsing(char *line, int *tab, t_all *all)
 		split = ft_strsplit(line + 7, ' ');
 		while (split[i])
 			;
+		i != 3 ? tab[3] == 1 : ;
 	}
 	if (tab[3] == 1)
 		return (-1);
@@ -57,6 +60,7 @@ int		sphere_parsing(char *line, int *tab, t_all *all)
 		split = ft_strsplit(line + 7, ' ');
 		while (split[i])
 			;
+		i != 3 ? tab[3] == 1 : ;
 	}
 	if (tab[2] == 2)
 	{
@@ -69,6 +73,7 @@ int		sphere_parsing(char *line, int *tab, t_all *all)
 		split = ft_strsplit(line + 7, ' ');
 		while (split[i])
 			;
+		i != 3 ? tab[3] == 1 : ;
 	}
 	if (tab[3] == 1)
 		return (-1);
@@ -88,6 +93,7 @@ int		cylinder_parsing(char *line, int *tab, t_all *all)
 		split = ft_strsplit(line + 8, ' ');
 		while (split[i])
 			;
+		i != 3 ? tab[3] == 1 : ;
 	}
 	if (tab[2] == 1)
 	{
@@ -95,6 +101,7 @@ int		cylinder_parsing(char *line, int *tab, t_all *all)
 		split = ft_strsplit(line + 8, ' ');
 		while (split[i])
 			;
+		i != 3 ? tab[3] == 1 : ;
 	}
 	if (tab[2] == 1)
 	{
@@ -107,6 +114,7 @@ int		cylinder_parsing(char *line, int *tab, t_all *all)
 		split = ft_strsplit(line + 7, ' ');
 		while (split[i])
 			;
+		i != 3 ? tab[3] == 1 : ;
 	}
 	if (tab[3] == 1)
 		return (-1);
