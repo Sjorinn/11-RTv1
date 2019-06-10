@@ -6,7 +6,7 @@
 /*   By: pchambon <pchambon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 12:09:17 by gfranco           #+#    #+#             */
-/*   Updated: 2019/05/10 18:08:34 by pchambon         ###   ########.fr       */
+/*   Updated: 2019/05/31 16:31:53 by pchambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int		main(int ac, char **av)
 		fail(2);
 	nb_obj = lexer(av[1], 0);
 	prim = create_tab(nb_obj);
-	prim = parser(av[1], nb_obj, prim);
+	prim = init_parser(av[1], nb_obj);
 	win_create(&data.mlx);
 	geo_init(&data.object, &data.base, &data.tools);
 	while (++data.tools.y < HEIGHT)

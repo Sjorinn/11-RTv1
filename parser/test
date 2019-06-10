@@ -1,0 +1,37 @@
+scene:
+	light:
+		origin: 600 0 -500
+		color: 255 255 255
+scene:
+	camera:
+		origin: -600 0 2000
+		dir: 600 600 600
+		vec: 0 -1 0
+object:
+	type: plane
+		point: 600 1000 200
+		normale: 0 240 100
+		color: 179 255 250
+object:
+	type: sphere
+		center: 300 500 1200
+		radius: 100
+		color: 0 255 0
+object:
+	type: cylinder
+		center: 100 200 300
+		direct: 0 1 0
+		radius: 140
+		color: 255 100 0
+object:
+	type: cone
+		tip: 100 100 100
+		center: 200 100 100
+		radius: 100
+		color: 255 255 0
+object:
+	type: cone
+		tip: 100 100 100
+		center: 200 100
+		radius: 100
+		color: 255 255 0

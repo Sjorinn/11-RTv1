@@ -6,7 +6,7 @@
 /*   By: pchambon <pchambon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 12:18:42 by gfranco           #+#    #+#             */
-/*   Updated: 2019/05/15 12:04:43 by pchambon         ###   ########.fr       */
+/*   Updated: 2019/06/10 15:38:22 by pchambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct	s_color
 	int			r;
 	int			g;
 	int			b;
+	int			tab[3];
 }				t_color;
 
 typedef struct	s_vector
@@ -38,6 +39,7 @@ typedef struct	s_vector
 	double		x;
 	double		y;
 	double		z;
+	double		tab[3];
 }				t_vector;
 
 typedef struct	s_light
@@ -121,12 +123,32 @@ typedef struct	s_mlx
 	int			endian;
 }				t_mlx;
 
+typedef struct s_camera
+{
+	t_vector	origin;
+	t_vector	dir;
+	t_vector	vec;
+}				t_camera;
+
+typedef	struct	s_prim
+{
+	int		type;
+	t_camera	camera;
+	t_light		light;
+	t_plane		plane;
+	t_sphere	sphere;
+	t_cylinder	cyl;
+	t_cone		cone;
+	struct s_prim	*next;
+}				t_prim;
+
 typedef struct	s_all
 {
 	t_mlx		mlx;
 	t_base		base;
 	t_tools		tools;
 	t_object	object;
+	t_prim		prim;
 }				t_all;
 
 typedef enum	e_type
@@ -137,19 +159,6 @@ typedef enum	e_type
 	CYLINDER,
 	LIGHT
 }				t_type;
-
-typedef	struct	s_prim
-{
-	int		type;
-	union
-	{
-		t_cylinder	cyl;
-		t_cone		cone;
-		t_plane		plane;
-		t_light		light;
-		t_sphere	sphere;
-	};
-}				t_prim;
 
 void			fail(int i);
 void			cone_ch(int fd);
@@ -175,15 +184,23 @@ double			power(double i, int power_value);
 t_vector		getnormal_cone(t_vector inter_p);
 void			smooth_rgb(t_color *color, int i);
 int				name_obj(char *line, int *number);
+t_prim			*init_parser(char *aled, int nb_obj);
 void			cone_fill(int fd, t_prim *prim, int index);
 void			plane_fill(int fd, t_prim *prim, int index);
 void			light_fill(int fd, t_prim *prim, int index);
 void			sphere_fill(int fd, t_prim *prim, int index);
-t_prim			*parser(char *file, int number, t_prim *prim);
+//t_prim			*parser(char *file, int number, t_prim *prim);
+t_prim			*parser(char *line, t_prim *prim);
 void			cylinder_fill(int fd, t_prim *prim, int index);
+t_prim			*cone_parsing(char *line, int *tab, t_prim *prim);
 int				cone_intersect(t_cone cone, t_ray ray, double t);
+t_prim			*light_parsing(char *line, int *tab, t_prim *prim);
+t_prim			*plane_parsing(char *line, int *tab, t_prim *prim);
+t_prim			*camera_parsing(char *line, int *tab, t_prim *prim);
+t_prim			*sphere_parsing(char *line, int *tab, t_prim *prim);
 int				plane_intersect(t_plane plane, t_ray ray, double t);
 t_vector		getnormal_sphere(t_sphere sphere, t_vector inter_p);
+t_prim			*cylinder_parsing(char *line, int *tab, t_prim *prim);
 void			put_color(int x, int y, unsigned int *str, double dt);
 int				sphere_intersect(t_sphere sphere, t_ray ray, double t);
 int				cylinder_intersect(t_cylinder cyl, t_ray ray, double t);
