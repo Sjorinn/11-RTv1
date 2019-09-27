@@ -6,22 +6,32 @@
 /*   By: pchambon <pchambon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 12:09:17 by gfranco           #+#    #+#             */
-/*   Updated: 2019/05/31 16:31:53 by pchambon         ###   ########.fr       */
+/*   Updated: 2019/06/20 21:41:29 by pchambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/rtv1.h"
 
-void	win_create(t_mlx *mlx)
+void		free_tab(char **tab, int len)
+{
+	int		i;
+
+	i = -1;
+	while (++i < len)
+		free(tab[i]);
+	free(tab);
+}
+
+void		win_create(t_mlx *mlx)
 {
 	mlx->ptr = mlx_init();
-	mlx->win = mlx_new_window(mlx->ptr, WIDTH, HEIGHT, "FRACTOL GFRANCO");
+	mlx->win = mlx_new_window(mlx->ptr, WIDTH, HEIGHT, "RTv1");
 	mlx->img = mlx_new_image(mlx->ptr, WIDTH, HEIGHT);
 	mlx->str = mlx_get_data_addr(mlx->img, &(mlx->bpp), &(mlx->s_l),
 	&(mlx->endian));
 }
 
-void	fail(int i)
+void		fail(int i)
 {
 	if (i == 1)
 	{
@@ -43,66 +53,37 @@ void	fail(int i)
 		write(1, "ERROR: problem occurs during data procurement\n", 46);
 		exit(0);
 	}
+	else if (i == 5)
+	{
+		write(1, "ERROR: Wrong camera settings\n", 29);
+		exit(0);
+	}
 }
 
-void	closest_point(t_tools tools, t_base base, t_mlx mlx, t_object object)
+int			main(int ac, char **av)
 {
-	if (tools.p < tools.s1 && tools.p < tools.s2 && tools.p <= 100000
-	&& tools.p < tools.c && tools.p < tools.cy)
-		draw_plane(base, object, mlx, tools);
-	if (tools.s1 < tools.p && tools.s1 < tools.s2
-	&& tools.s1 < tools.c && tools.s1 < tools.cy)
-		draw_sphere(base, object, mlx, tools);
-	if (tools.s2 < tools.s1 && tools.s2 < tools.p
-	&& tools.s2 < tools.c && tools.s2 < tools.cy)
-		draw_sphere(base, object, mlx, tools);
-	if (tools.c < tools.s1 && tools.c < tools.p
-	&& tools.c < tools.s2 && tools.c < tools.cy)
-		draw_cone(base, object, mlx, tools);
-	if (tools.cy < tools.s1 && tools.cy < tools.p
-	&& tools.cy < tools.c && tools.cy < tools.s2)
-		draw_cyl(base, object, mlx, tools);
-}
-
-void	init_struct(t_base *base, t_tools *tools, t_object *object, t_mlx mlx)
-{
-	tools->p = 200000;
-	tools->s1 = 200000;
-	tools->s2 = 200000;
-	tools->c = 200000;
-	tools->cy = 200000;
-	base->ray.dir.x = tools->x - base->ray.origin.x;
-	base->ray.dir.y = tools->y - base->ray.origin.y;
-	base->ray.dir.z = 0 - base->ray.origin.z;
-	base->ray.dir = normalize(base->ray.dir);
-	tools->p = plane_intersect(object->plane, base->ray, tools->p);
-	tools->s1 = sphere_intersect(object->sphere, base->ray, tools->s1);
-	tools->s2 = sphere_intersect(object->sphere2, base->ray, tools->s2);
-	tools->c = cone_intersect(object->cone, base->ray, tools->c);
-	tools->cy = cylinder_intersect(object->cyl, base->ray, tools->cy);
-	closest_point(*tools, *base, mlx, *object);
-}
-
-int		main(int ac, char **av)
-{
-	t_all		data;
+	t_mlx		mlx;
+	t_base		base;
 	t_prim		*prim;
-	int			nb_obj;
+	t_i			i;
+	int			cam;
 
 	if (ac != 2)
 		fail(2);
-	nb_obj = lexer(av[1], 0);
-	prim = create_tab(nb_obj);
-	prim = init_parser(av[1], nb_obj);
-	win_create(&data.mlx);
-	geo_init(&data.object, &data.base, &data.tools);
-	while (++data.tools.y < HEIGHT)
-	{
-		data.tools.x = -1;
-		while (++data.tools.x < WIDTH)
-			init_struct(&data.base, &data.tools, &data.object, data.mlx);
-	}
-	mlx_hook(data.mlx.win, KEYPRESS, KEYPRESSMASK, key, 0);
-	mlx_put_image_to_window(data.mlx.ptr, data.mlx.win, data.mlx.img, 0, 0);
-	mlx_loop(data.mlx.ptr);
+	cam = 0;
+	i.nb = lexer(av[1], 0, &cam);
+	if (cam != 1)
+		fail(1);
+	prim = create_tab(i.nb);
+	prim = parser(av[1], i.nb, prim);
+	i.i = -1;
+	find_cam(&i, prim);
+	initialize_ray(prim[i.cm].cam, &base);
+	base.upleft = upleft_calc(base);
+	i.i = -1;
+	win_create(&mlx);
+	main_algo(base, prim, mlx, i);
+	mlx_hook(mlx.win, KEYPRESS, KEYPRESSMASK, key, 0);
+	mlx_put_image_to_window(mlx.ptr, mlx.win, mlx.img, 0, 0);
+	mlx_loop(mlx.ptr);
 }

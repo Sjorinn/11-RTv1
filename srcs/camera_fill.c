@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   event.c                                            :+:      :+:    :+:   */
+/*   camera_fill.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pchambon <pchambon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gfranco <gfranco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/16 11:54:19 by gfranco           #+#    #+#             */
-/*   Updated: 2019/06/20 19:06:02 by pchambon         ###   ########.fr       */
+/*   Created: 2019/06/06 12:10:31 by gfranco           #+#    #+#             */
+/*   Updated: 2019/06/26 13:53:55 by gfranco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/rtv1.h"
 
-int		key(int key, void *param)
+void		camera_fill(int fd, t_prim *prim, int index)
 {
-	t_all	*all;
-
-	all = (t_all*)param;
-	if (key == 53)
-		exit(0);
-	return (0);
+	prim[index].cam.pos = vec3_extract(fd);
+	prim[index].cam.target = vec3_extract(fd);
+	prim[index].cam.up = vec3_extract(fd);
+	prim[index].cam.up = nrmz(prim[index].cam.up);
+	prim[index].type = CAMERA;
 }

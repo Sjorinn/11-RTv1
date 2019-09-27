@@ -1,23 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   event.c                                            :+:      :+:    :+:   */
+/*   camera_check.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pchambon <pchambon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/16 11:54:19 by gfranco           #+#    #+#             */
-/*   Updated: 2019/06/20 19:06:02 by pchambon         ###   ########.fr       */
+/*   Created: 2019/06/06 11:47:51 by gfranco           #+#    #+#             */
+/*   Updated: 2019/06/25 02:15:47 by pchambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/rtv1.h"
 
-int		key(int key, void *param)
+void		camera_ch(int fd)
 {
-	t_all	*all;
+	int		i;
+	char	*line;
 
-	all = (t_all*)param;
-	if (key == 53)
-		exit(0);
-	return (0);
+	i = -1;
+	while (++i < 3)
+	{
+		if (get_next_line(fd, &line) > 0)
+		{
+			if (check_vec3(line) == 0)
+				fail(1);
+		}
+		else
+			fail(1);
+		if (ft_strcmp(line, "") == 0)
+			fail(1);
+		free(line);
+	}
 }
